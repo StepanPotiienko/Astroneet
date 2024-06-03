@@ -1,14 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://bqgwmrtts76g8"]
+[gd_scene load_steps=7 format=3 uid="uid://bqgwmrtts76g8"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_s27v7"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1invi"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_nmoue"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_2ai6r"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_0s5nb"]
+[ext_resource type="Script" path="res://main.gd" id="1_ehetx"]
+[ext_resource type="Script" path="res://free_look_camera.gd" id="2_np33a"]
 
 [sub_resource type="Sky" id="Sky_uvqmr"]
 
@@ -17,36 +10,59 @@ background_mode = 2
 sky = SubResource("Sky_uvqmr")
 volumetric_fog_density = 0.0079
 
+[sub_resource type="SphereMesh" id="SphereMesh_0ugvn"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_d4y5r"]
+
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_ehetx")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.545085, -0.0558859, -0.836516, -0.685295, -0.545085, 0.482963, -0.482963, 0.836516, 0.258819, -3.9038, 2.05009, 5)
 light_energy = 1.045
 light_volumetric_fog_energy = 4.717
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100.95, 0)
-script = ExtResource("1_s27v7")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
-shape = SubResource("CapsuleShape3D_1invi")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/CollisionShape3D"]
-mesh = SubResource("CapsuleMesh_nmoue")
-
-[node name="Head" type="Node3D" parent="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
-
-[node name="Camera3D" type="Camera3D" parent="CharacterBody3D/Head"]
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, 0, 0, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("SphereShape3D_2ai6r")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D"]
-mesh = SubResource("SphereMesh_0s5nb")
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ywjm1")
+
+[node name="Sun" type="RigidBody3D" parent="."]
+mass = 5000.0
+lock_rotation = true
+freeze = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Sun"]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+mesh = SubResource("SphereMesh_0ugvn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sun"]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+shape = SubResource("SphereShape3D_d4y5r")
+
+[node name="RigidBody3D2" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 285.479, -75.5487, 153.395)
+mass = 200.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D2"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+mesh = SubResource("SphereMesh_0ugvn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D2"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+shape = SubResource("SphereShape3D_d4y5r")
+
+[node name="RigidBody3D3" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -112.833, -26.1563, 153.395)
+mass = 400.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D3"]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+mesh = SubResource("SphereMesh_0ugvn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D3"]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+shape = SubResource("SphereShape3D_d4y5r")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 9.81474, -9.59988, -272.24)
+fov = 90.0
+script = ExtResource("2_np33a")
